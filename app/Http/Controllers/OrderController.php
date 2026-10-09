@@ -40,6 +40,7 @@ class OrderController extends Controller
                 'items' => $items,
                 'phone' => $request->phone,
                 'address' => $request->address,
+                'fulfillment_type' => $request->fulfillment_type,
                 'notes' => $request->notes,
             ],
             [
@@ -51,8 +52,9 @@ class OrderController extends Controller
                 ],
                 'items.*.quantity' => 'required|integer|min:1',
 
-                'phone' => 'nullable|string|max:30',
-                'address' => 'nullable|string|max:500',
+                'phone' => 'required|string|max:30',
+                'fulfillment_type' => 'required|in:delivery,pickup',
+                'address' => 'required_if:fulfillment_type,delivery|nullable|string|max:500',
                 'notes' => 'nullable|string|max:1000',
             ]
         )->validate();
@@ -97,7 +99,7 @@ class OrderController extends Controller
 
                 'phone' => $validated['phone'] ?? null,
 
-                'address' => $validated['address'] ?? null,
+                'fulfillment_type' => $validated['fulfillment_type'],
 
                 'total_amount' => $total,
 

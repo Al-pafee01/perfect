@@ -13,13 +13,13 @@
         <div class="register-card">
 
             <div class="register-logo">
-                <img src="{{ asset('favicon.png') }}" alt="Kessy Brothers Food logo">
+                <img src="{{ asset('images/kessy-tech-pro-logo.png') }}" alt="Kessy Tech Pro logo">
             </div>
 
             <h1>Create Account</h1>
 
             <p class="register-subtitle">
-                Join Kessy Brothers Food and start ordering your favorite meals.
+                Join Kessy Brothers Food and start ordering your favorite meals. We record sign-in time, device and IP for account security.
             </p>
 
             {{-- Success Message --}}
@@ -78,6 +78,48 @@
                         name="email"
                         value="{{ old('email') }}"
                         placeholder="Enter your email"
+                        required
+                    >
+
+                </div>
+
+
+                {{-- Gender --}}
+                <div class="form-group">
+
+                    <label for="gender">
+                        Gender
+                    </label>
+
+                    <select
+                        id="gender"
+                        name="gender"
+                        required
+                    >
+                        <option value="" disabled @selected(old('gender') === null)>Select gender</option>
+                        <option value="female" @selected(old('gender') === 'female')>Female</option>
+                        <option value="male" @selected(old('gender') === 'male')>Male</option>
+                        <option value="prefer_not_to_say" @selected(old('gender') === 'prefer_not_to_say')>Prefer not to say</option>
+                    </select>
+
+                </div>
+
+
+                {{-- Phone Number --}}
+                <div class="form-group">
+
+                    <label for="phone">
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        value="{{ old('phone') }}"
+                        placeholder="e.g. +255 712 345 678"
+                        autocomplete="tel"
+                        maxlength="32"
                         required
                     >
 
@@ -207,8 +249,8 @@
 }
 
 .register-logo {
-    width: 65px;
-    height: 65px;
+    width: 150px;
+    height: 115px;
 
     margin: 0 auto 15px;
 
@@ -216,18 +258,11 @@
     align-items: center;
     justify-content: center;
 
-    background: #2563eb;
-
-    color: white;
-
-    border-radius: 18px;
-
-    font-size: 30px;
 }
 
 .register-logo img {
-    width: 44px;
-    height: 44px;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
 }
 
@@ -284,11 +319,27 @@
     box-sizing: border-box;
 }
 
+.form-group select {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    outline: none;
+    background: #ffffff;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+.form-group select:focus {
+    border-color: var(--brand-accent);
+    box-shadow: 0 0 0 4px rgba(32, 169, 212, 0.10);
+}
+
 .form-group input:focus {
-    border-color: #2563eb;
+    border-color: var(--brand-accent);
 
     box-shadow:
-        0 0 0 3px rgba(37, 99, 235, 0.12);
+        0 0 0 3px rgba(32, 169, 212, 0.12);
 }
 
 .password-wrapper {
@@ -325,7 +376,7 @@
 
     border-radius: 12px;
 
-    background: #2563eb;
+    background: var(--brand-accent);
 
     color: white;
 
@@ -341,7 +392,7 @@
 }
 
 .register-button:hover {
-    background: #1d4ed8;
+    background: var(--brand-accent-dark);
 
     transform: translateY(-2px);
 }
@@ -355,7 +406,7 @@
 }
 
 .login-link a {
-    color: #2563eb;
+    color: var(--brand-accent);
 
     font-weight: 700;
 

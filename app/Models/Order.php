@@ -14,7 +14,16 @@ class Order extends Model
         'total_amount',
         'status',
         'notes',
+        'completed_at',
+        'fulfillment_type',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'completed_at' => 'datetime',
+        ];
+    }
 
     public function user()
     {

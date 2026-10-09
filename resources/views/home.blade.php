@@ -12,6 +12,135 @@
         overflow: hidden;
     }
 
+    /* ================= PROMO MARQUEE ================= */
+
+    .food-marquee {
+        position: relative;
+        overflow: hidden;
+        padding: 19px 0;
+        border-top: 1px solid rgba(168, 225, 239, .16);
+        border-bottom: 1px solid rgba(168, 225, 239, .16);
+        background:
+            radial-gradient(ellipse at 50% 0, rgba(32, 169, 212, .16), transparent 58%),
+            linear-gradient(100deg, #0b1220, #111b2b 50%, #0b1220);
+        color: #ffffff;
+    }
+
+    .food-marquee-track {
+        display: flex;
+        width: max-content;
+        animation: foodMarquee 38s linear infinite;
+        will-change: transform;
+    }
+
+    .food-marquee:hover .food-marquee-track,
+    .food-marquee:focus-within .food-marquee-track {
+        animation-play-state: paused;
+    }
+
+    .food-marquee-group {
+        display: flex;
+        flex: 0 0 auto;
+        align-items: center;
+        gap: 32px;
+        padding-right: 32px;
+        white-space: nowrap;
+    }
+
+    .food-marquee-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 1.7px;
+        text-transform: uppercase;
+    }
+
+    .food-marquee-item::after {
+        width: 7px;
+        height: 7px;
+        border-radius: 2px;
+        background: var(--brand-accent);
+        box-shadow: 0 0 14px rgba(32, 169, 212, .55);
+        content: "";
+        transform: rotate(45deg);
+    }
+
+    .food-marquee-item:nth-child(2n)::after {
+        background: var(--brand-secondary);
+        box-shadow: 0 0 14px rgba(243, 154, 30, .45);
+    }
+
+    @keyframes foodMarquee {
+        to {
+            transform: translateX(-50%);
+        }
+    }
+
+    /* ================= SECTION DIVIDERS ================= */
+
+    .food-section-divider {
+        position: relative;
+        width: min(1150px, 92%);
+        height: 1px;
+        margin: 0 auto;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(17, 27, 43, .12) 15%,
+            rgba(32, 169, 212, .36) 50%,
+            rgba(17, 27, 43, .12) 85%,
+            transparent
+        );
+    }
+
+    .food-section-divider::before,
+    .food-section-divider::after {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        content: "";
+        transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    .food-section-divider::before {
+        width: 13px;
+        height: 13px;
+        border: 2px solid #ffffff;
+        border-radius: 3px;
+        background: var(--brand-secondary);
+        box-shadow: 0 0 0 5px rgba(243, 154, 30, .12);
+    }
+
+    .food-section-divider::after {
+        width: 5px;
+        height: 5px;
+        border-radius: 1px;
+        background: var(--brand-accent);
+        transform: translate(9px, -50%) rotate(45deg);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .food-marquee-track {
+            animation: none;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .food-marquee-group {
+            flex: 1 1 auto;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 0 20px;
+            white-space: normal;
+        }
+
+        .food-marquee-group[aria-hidden="true"] {
+            display: none;
+        }
+    }
+
     /* ================= HERO ================= */
 
     .food-hero {
@@ -132,8 +261,8 @@
         width: 9px;
         height: 9px;
         border-radius: 50%;
-        background: #d4af37;
-        box-shadow: 0 0 15px #d4af37;
+        background: var(--brand-secondary);
+        box-shadow: 0 0 15px var(--brand-secondary);
     }
 
     /* Main heading */
@@ -160,7 +289,7 @@
     }
 
     .food-hero-title .orange {
-        color: #d4af37;
+        color: var(--brand-secondary);
         display: block;
     }
 
@@ -208,16 +337,16 @@
     }
 
     .food-btn-primary {
-        background: linear-gradient(135deg, #d4af37 0%, #b88a2a 100%);
+        background: linear-gradient(135deg, var(--brand-secondary) 0%, var(--brand-secondary-dark) 100%);
         color: #101828;
 
         box-shadow:
-            0 15px 35px rgba(212,175,55,.30);
+            0 15px 35px rgba(243, 154, 30,.30);
     }
 
     .food-btn-primary:hover {
         transform: translateY(-4px);
-        background: linear-gradient(135deg, #c69c2a 0%, #a7771a 100%);
+        background: linear-gradient(135deg, var(--brand-secondary-dark) 0%, var(--brand-secondary-deep) 100%);
         color: #101828;
     }
 
@@ -226,13 +355,13 @@
 
         background: rgba(255,255,255,.08);
 
-        border: 1px solid rgba(212,175,55,.55);
+        border: 1px solid rgba(243, 154, 30,.55);
 
         backdrop-filter: blur(10px);
     }
 
     .food-btn-secondary:hover {
-        background: rgba(212,175,55,.14);
+        background: rgba(243, 154, 30,.14);
         color: #f8f5ee;
 
         transform: translateY(-4px);
@@ -301,7 +430,7 @@
     }
 
     .food-label {
-        color: #d4af37;
+        color: var(--brand-secondary);
 
         font-size: 12px;
 
@@ -372,7 +501,7 @@
 
         font-size: 28px;
 
-        color: #d4af37;
+        color: var(--brand-secondary);
 
         margin-bottom: 5px;
     }
@@ -542,26 +671,20 @@
     }
 
     .food-card-image {
+        position: relative;
         height: 260px;
-
-        background-size: cover;
-
-        background-position: center;
+        overflow: hidden;
     }
 
-    .food-card:nth-child(1) .food-card-image {
-        background-image:
-            url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1000&q=85');
+    .food-card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform .35s ease;
     }
 
-    .food-card:nth-child(2) .food-card-image {
-        background-image:
-            url('https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1000&q=85');
-    }
-
-    .food-card:nth-child(3) .food-card-image {
-        background-image:
-            url('https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=1000&q=85');
+    .food-card:hover .food-card-image img {
+        transform: scale(1.05);
     }
 
     .food-card-body {
@@ -591,7 +714,7 @@
     }
 
     .food-price strong {
-        color: #ff6338;
+        color: var(--brand-secondary);
 
         font-size: 20px;
     }
@@ -613,7 +736,7 @@
     }
 
     .order-small:hover {
-        background: #ff6338;
+        background: var(--brand-secondary);
 
         color: white;
     }
@@ -691,8 +814,8 @@
         display: inline-block;
         padding: 7px 12px;
         border-radius: 999px;
-        background: rgba(212,175,55,0.2);
-        border: 1px solid rgba(212,175,55,0.5);
+        background: rgba(243, 154, 30,0.2);
+        border: 1px solid rgba(243, 154, 30,0.5);
         color: #f8f5ee;
         font-size: 11px;
         letter-spacing: 1.2px;
@@ -740,7 +863,7 @@
 
         font-weight: 800;
 
-        color: #ff6338;
+        color: var(--brand-secondary);
     }
 
     .stat-label {
@@ -959,6 +1082,24 @@
 
     </section>
 
+    <div class="food-marquee" role="region" aria-label="What makes Kessy special">
+        <div class="food-marquee-track">
+            <div class="food-marquee-group">
+                <span class="food-marquee-item">Freshly prepared with care</span>
+                <span class="food-marquee-item">Flavour in every bite</span>
+                <span class="food-marquee-item">Quality ingredients, always</span>
+                <span class="food-marquee-item">Your next favourite meal</span>
+                <span class="food-marquee-item">Made fresh, made for you</span>
+            </div>
+            <div class="food-marquee-group" aria-hidden="true">
+                <span class="food-marquee-item">Freshly prepared with care</span>
+                <span class="food-marquee-item">Flavour in every bite</span>
+                <span class="food-marquee-item">Quality ingredients, always</span>
+                <span class="food-marquee-item">Your next favourite meal</span>
+                <span class="food-marquee-item">Made fresh, made for you</span>
+            </div>
+        </div>
+    </div>
 
     <!-- ================= INTRO ================= -->
 
@@ -1018,6 +1159,7 @@
 
     </section>
 
+    <div class="food-section-divider" aria-hidden="true"></div>
 
     <!-- ================= CATEGORIES ================= -->
 
@@ -1123,6 +1265,7 @@
 
     </section>
 
+    <div class="food-section-divider" aria-hidden="true"></div>
 
     <!-- ================= POPULAR ================= -->
 
@@ -1135,122 +1278,31 @@
             </div>
 
             <h2 class="food-title">
-                Favorites worth trying.
+            Fresh from our menu.
             </h2>
-
 
             <div class="food-products">
 
-
-                <!-- Classic Burger -->
-
-                <div class="food-card">
-
-                    <div class="food-card-image"></div>
-
-                    <div class="food-card-body">
-
-                        <h3>
-                            Classic Burger
-                        </h3>
-
-                        <p>
-                            Juicy beef, fresh vegetables and our
-                            signature sauce.
-                        </p>
-
-                        <div class="food-price">
-
-                            <strong>
-                                TSh 8,000
-                            </strong>
-
-                            <a href="{{ url('/order') }}"
-                               class="order-small">
-
-                                Order
-
-                            </a>
-
-                        </div>
-
+            @forelse($foods as $food)
+                <article class="food-card">
+                    <div class="food-card-image">
+                        <img src="{{ $food->image_url }}" alt="{{ $food->name }}" loading="lazy">
                     </div>
-
-                </div>
-
-
-                <!-- Fresh Pasta -->
-
-                <div class="food-card">
-
-                    <div class="food-card-image"></div>
-
                     <div class="food-card-body">
-
-                        <h3>
-                            Fresh Pasta
-                        </h3>
-
-                        <p>
-                            Delicious pasta prepared with fresh
-                            ingredients and rich flavor.
-                        </p>
-
+                        <h3>{{ $food->name }}</h3>
+                        <p>{{ $food->description ?: 'Freshly prepared with care using quality ingredients.' }}</p>
                         <div class="food-price">
-
-                            <strong>
-                                TSh 10,000
-                            </strong>
-
-                            <a href="{{ url('/order') }}"
-                               class="order-small">
-
-                                Order
-
-                            </a>
-
+                            <strong>TSh {{ number_format($food->price) }}</strong>
+                            <a href="{{ route('order') }}" class="order-small">Order</a>
                         </div>
-
                     </div>
-
+                </article>
+            @empty
+                <div class="food-empty">
+                    <p>Our menu is being prepared. Please check back soon.</p>
+                    <a href="{{ route('menu') }}">Explore the menu</a>
                 </div>
-
-
-                <!-- Special Burger -->
-
-                <div class="food-card">
-
-                    <div class="food-card-image"></div>
-
-                    <div class="food-card-body">
-
-                        <h3>
-                            Special Burger
-                        </h3>
-
-                        <p>
-                            A perfect combination of flavor,
-                            freshness and quality.
-                        </p>
-
-                        <div class="food-price">
-
-                            <strong>
-                                TSh 9,000
-                            </strong>
-
-                            <a href="{{ url('/order') }}"
-                               class="order-small">
-
-                                Order
-
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </div>
+            @endforelse
 
             </div>
 
@@ -1258,6 +1310,7 @@
 
     </section>
 
+    <div class="food-section-divider" aria-hidden="true"></div>
 
     <!-- ================= STATS ================= -->
 
@@ -1270,7 +1323,7 @@
                 <div>
 
                     <div class="stat-number"
-                         data-target="100">
+                         data-target="{{ $customerCount }}">
 
                         0
 
@@ -1286,14 +1339,14 @@
                 <div>
 
                     <div class="stat-number"
-                         data-target="25">
+                         data-target="{{ $mealCount }}">
 
                         0
 
                     </div>
 
                     <div class="stat-label">
-                        Delicious Meals
+                        Available Meals
                     </div>
 
                 </div>
@@ -1302,7 +1355,7 @@
                 <div>
 
                     <div class="stat-number"
-                         data-target="5">
+                         data-target="{{ $categoryCount }}">
 
                         0
 
@@ -1318,14 +1371,14 @@
                 <div>
 
                     <div class="stat-number"
-                         data-target="100">
+                         data-target="{{ $completedOrderCount }}">
 
                         0
 
                     </div>
 
                     <div class="stat-label">
-                        Freshness %
+                        Orders Completed
                     </div>
 
                 </div>
@@ -1336,6 +1389,7 @@
 
     </section>
 
+    <div class="food-section-divider" aria-hidden="true"></div>
 
     <!-- ================= CTA ================= -->
 
@@ -1397,7 +1451,7 @@
 
                 if (current >= target) {
 
-                    counter.textContent = target + '+';
+                    counter.textContent = target === 0 ? '0' : target + '+';
 
                     return;
                 }

@@ -217,7 +217,7 @@
 }
 
 .page-header span {
-    color: #2563eb;
+    color: var(--brand-accent);
     font-size: 13px;
     font-weight: 800;
     letter-spacing: 2px;
@@ -271,7 +271,7 @@
     width: 65px;
     height: 65px;
     border-radius: 50%;
-    background: #2563eb;
+    background: var(--brand-accent);
     color: white;
     display: flex;
     align-items: center;
@@ -371,7 +371,7 @@
 
 .status.unread {
     background: #dbeafe;
-    color: #1d4ed8;
+    color: var(--brand-accent-dark);
 }
 
 .read-btn {
@@ -409,7 +409,7 @@
 }
 
 .email-btn {
-    background: #2563eb;
+    background: var(--brand-accent);
     color: white;
 }
 

@@ -18,7 +18,7 @@
 
     <meta
         name="theme-color"
-        content="#2563eb"
+        content="#111b2b"
     >
 
 
@@ -32,18 +32,18 @@
     <link
         rel="icon"
         type="image/png"
-        href="{{ asset('favicon.png') }}"
+        href="{{ asset('images/kessy-tech-pro-logo.png') }}"
     >
 
     <link
         rel="shortcut icon"
         type="image/png"
-        href="{{ asset('favicon.png') }}"
+        href="{{ asset('images/kessy-tech-pro-logo.png') }}"
     >
 
     <link
         rel="apple-touch-icon"
-        href="{{ asset('favicon.png') }}"
+        href="{{ asset('images/kessy-tech-pro-logo.png') }}"
     >
 
 
@@ -93,6 +93,30 @@
             color: #0f172a;
             line-height: 1.6;
             overflow-x: hidden;
+        }
+
+        :root {
+            --brand-primary: #111b2b;
+            --brand-secondary: #f39a1e;
+            --brand-accent: #20a9d4;
+            --brand-accent-dark: #147da3;
+            --brand-soft: #a8e1ef;
+            --brand-secondary-dark: #dc8d10;
+            --brand-secondary-deep: #a7771a;
+
+            --brand-orange: var(--brand-secondary);
+            --brand-blue: var(--brand-accent);
+            --brand-navy: var(--brand-primary);
+            --brand-sky: var(--brand-soft);
+        }
+
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        textarea:focus-visible {
+            outline: 3px solid var(--brand-blue);
+            outline-offset: 3px;
         }
 
 
@@ -169,22 +193,22 @@
 
 
         .btn-primary {
-            background: #c89b3c;
-            color: #0f172a;
+            background: var(--brand-secondary);
+            color: var(--brand-primary);
         }
 
 
         .btn-primary:hover {
-            background: #b88a2a;
+            background: var(--brand-secondary-dark);
             transform: translateY(-2px);
 
             box-shadow:
-                0 10px 25px rgba(200, 155, 60, .28);
+                0 10px 25px rgba(243, 154, 30, .28);
         }
 
 
         .btn-secondary {
-            background: #16263d;
+            background: var(--brand-primary);
             color: white;
         }
 
@@ -194,7 +218,7 @@
             transform: translateY(-2px);
 
             box-shadow:
-                0 10px 25px rgba(22, 38, 61, .25);
+                0 10px 25px rgba(17, 27, 43, .25);
         }
 
 
@@ -286,10 +310,10 @@
         .form-group input:focus,
         .form-group textarea:focus,
         .form-group select:focus {
-            border-color: #2563eb;
+            border-color: var(--brand-accent);
 
             box-shadow:
-                0 0 0 3px rgba(37, 99, 235, .10);
+                0 0 0 3px rgba(32, 169, 212, .10);
         }
 
 
@@ -416,7 +440,7 @@
             height: 58px;
             object-fit: contain;
             margin: 0 auto;
-            filter: drop-shadow(0 10px 22px rgba(255, 99, 56, .25));
+            filter: drop-shadow(0 10px 22px rgba(243, 154, 30, .25));
         }
 
 
@@ -432,7 +456,7 @@
             display: block;
             width: 42%;
             height: 100%;
-            background: #ff6338;
+            background: var(--brand-secondary);
             animation: pageProgress 1s cubic-bezier(.22, 1, .36, 1) infinite;
         }
 
@@ -501,7 +525,7 @@
         .section-title span {
             display: block;
 
-            color: #2563eb;
+            color: var(--brand-accent);
 
             font-size: 13px;
 
@@ -574,7 +598,62 @@
 
                 transition-duration: .01ms !important;
             }
+        }
 
+        .food-page .orange,
+        .food-label,
+        .section-label,
+        .page-label {
+            color: var(--brand-orange) !important;
+        }
+
+        .food-btn-primary,
+        .order-button,
+        .mobile-order-button,
+        .order-small,
+        .order-btn,
+        .cta-btn,
+        .confirm-order,
+        .login-button,
+        .save-btn,
+        .update-btn,
+        .add-food-btn,
+        .empty-add-btn,
+        .filter-btn.active,
+        .filter-btn:hover {
+            background-color: var(--brand-orange) !important;
+            border-color: var(--brand-orange) !important;
+            color: var(--brand-navy) !important;
+        }
+
+        .food-btn-primary:hover,
+        .order-button:hover,
+        .mobile-order-button:hover,
+        .order-small:hover,
+        .order-btn:hover,
+        .cta-btn:hover,
+        .confirm-order:hover,
+        .login-button:hover,
+        .save-btn:hover,
+        .update-btn:hover {
+            background-color: var(--brand-secondary-dark) !important;
+            color: var(--brand-navy) !important;
+        }
+
+        .food-price,
+        .food-price strong,
+        .section-heading span,
+        .summary-total strong,
+        .price,
+        .tracking-steps li.is-complete {
+            color: var(--brand-blue) !important;
+        }
+
+        .confirm-order,
+        .login-button,
+        .order-btn,
+        .order-small {
+            box-shadow: 0 8px 22px rgba(243, 154, 30, .2);
         }
 
     </style>
@@ -586,7 +665,7 @@
 
     <div class="page-transition" aria-hidden="true">
         <div class="page-transition-brand">
-            <img src="{{ asset('favicon.png') }}" alt="Kessy Brothers Food logo">
+            <img src="{{ asset('images/kessy-tech-pro-logo.png') }}" alt="Kessy Tech Pro logo">
             Kessy Brothers Food
             <div class="page-transition-progress">
                 <span></span>

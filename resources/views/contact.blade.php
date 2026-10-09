@@ -721,7 +721,7 @@
 
     display: inline-block;
 
-    color: #2563eb;
+    color: var(--brand-accent);
 
     font-size: .78rem;
 
@@ -886,7 +886,7 @@
 .contact-card:hover .contact-arrow {
     transform: translateX(4px);
 
-    color: #2563eb;
+    color: var(--brand-accent);
 }
 
 
@@ -1159,10 +1159,10 @@
 .textarea-wrapper textarea:focus {
     background: white;
 
-    border-color: #2563eb;
+    border-color: var(--brand-accent);
 
     box-shadow:
-        0 0 0 4px rgba(37,99,235,.09);
+        0 0 0 4px rgba(32, 169, 212,.09);
 }
 
 
@@ -1202,7 +1202,7 @@
 
     border-radius: 12px;
 
-    background: #2563eb;
+    background: var(--brand-accent);
 
     color: white;
 
@@ -1213,19 +1213,19 @@
     font-weight: 800;
 
     box-shadow:
-        0 10px 25px rgba(37,99,235,.18);
+        0 10px 25px rgba(32, 169, 212,.18);
 
     transition: all .3s ease;
 }
 
 
 .send-message-button:hover {
-    background: #1d4ed8;
+    background: var(--brand-accent-dark);
 
     transform: translateY(-2px);
 
     box-shadow:
-        0 15px 30px rgba(37,99,235,.25);
+        0 15px 30px rgba(32, 169, 212,.25);
 }
 
 

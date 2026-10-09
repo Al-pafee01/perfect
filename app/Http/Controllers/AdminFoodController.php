@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Food;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Illuminate\Http\UploadedFile;
+use RuntimeException;
 
 class AdminFoodController extends Controller
 {
@@ -12,7 +16,7 @@ class AdminFoodController extends Controller
      */
     public function index()
     {
-        $foods = Food::latest()->get();
+        $foods = Food::latest()->paginate(20);
 
         return view('admin.foods.index', compact('foods'));
     }
@@ -35,11 +39,15 @@ class AdminFoodController extends Controller
             'category' => 'required|string|max:100',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
-            'image' => 'nullable|string|max:255',
+            'image' => 'nullable|image|max:4096',
             'is_available' => 'nullable|boolean',
         ]);
 
+        $validated['category'] = Str::lower(trim($validated['category']));
         $validated['is_available'] = $request->has('is_available');
+        $validated['image'] = $request->hasFile('image')
+            ? $this->storeImage($request->file('image'))
+            : null;
 
         Food::create($validated);
 
@@ -74,13 +82,26 @@ class AdminFoodController extends Controller
             'category' => 'required|string|max:100',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
-            'image' => 'nullable|string|max:255',
+            'image' => 'nullable|image|max:4096',
             'is_available' => 'nullable|boolean',
         ]);
 
+        $validated['category'] = Str::lower(trim($validated['category']));
         $validated['is_available'] = $request->has('is_available');
 
+        if ($request->hasFile('image')) {
+            $newImage = $this->storeImage($request->file('image'));
+            $oldImage = $food->image;
+            $validated['image'] = $newImage;
+        } else {
+            unset($validated['image']);
+        }
+
         $food->update($validated);
+
+        if (isset($newImage) && Str::startsWith((string) $oldImage, 'foods/')) {
+            Storage::disk('public')->delete($oldImage);
+        }
 
         return redirect()
             ->route('foods.index')
@@ -92,10 +113,25 @@ class AdminFoodController extends Controller
      */
     public function destroy(Food $food)
     {
+        if (Str::startsWith((string) $food->image, 'foods/')) {
+            Storage::disk('public')->delete($food->image);
+        }
+
         $food->delete();
 
         return redirect()
             ->route('foods.index')
             ->with('success', 'Food deleted successfully.');
+    }
+
+    private function storeImage(UploadedFile $image): string
+    {
+        $path = $image->store('foods', 'public');
+
+        if ($path === false) {
+            throw new RuntimeException('The uploaded food image could not be saved.');
+        }
+
+        return $path;
     }
 }

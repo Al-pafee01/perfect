@@ -6,8 +6,8 @@
         <a href="{{ url('/') }}" class="navbar-logo">
             <img
                 class="logo-icon"
-                src="{{ asset('favicon.png') }}"
-                alt="Kessy Brothers Food logo"
+                src="{{ asset('images/kessy-tech-pro-logo.png') }}"
+                alt="Kessy Tech Pro logo"
             >
             <span>
                 <strong>Kessy Brothers</strong>
@@ -59,6 +59,10 @@
                         📦 Customer Orders
                     </a>
 
+                    <a href="{{ route('admin.users.index') }}">
+                        👥 Manage Customers
+                    </a>
+
                     <a href="{{ route('admin.messages.index') }}">
                         📨 Messages
                     </a>
@@ -73,9 +77,11 @@
                 @endif
             @endauth
 
-            <a href="{{ route('login') }}">
-                Login
-            </a>
+            @auth
+                <a href="{{ route('dashboard') }}">My Account</a>
+            @else
+                <a href="{{ route('login') }}">Login</a>
+            @endauth
 
             <a href="{{ route('order') }}" class="order-button">
                 Order Food
@@ -133,6 +139,10 @@
             📦 Customer Orders
         </a>
 
+        <a href="{{ route('admin.users.index') }}">
+            👥 Manage Customers
+        </a>
+
         <a href="{{ route('admin.messages.index') }}">
             📨 Messages
         </a>
@@ -143,9 +153,11 @@
             @endif
         @endauth
 
-        <a href="{{ route('login') }}">
-            🔐 Login
-        </a>
+        @auth
+            <a href="{{ route('dashboard') }}">👤 My Account</a>
+        @else
+            <a href="{{ route('login') }}">🔐 Login</a>
+        @endauth
 
         <a href="{{ route('order') }}" class="mobile-order-button">
             🛒 Order Food
@@ -164,9 +176,9 @@
     left: 0;
     width: 100%;
     z-index: 9999;
-    background: rgba(12, 20, 31, 0.96);
+    background: rgba(17, 27, 43, 0.96);
     backdrop-filter: blur(15px);
-    border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+    border-bottom: 1px solid rgba(243, 154, 30, 0.25);
     transition: all 0.3s ease;
 }
 
@@ -207,7 +219,7 @@
 
 .navbar-logo small {
     display: block;
-    color: #d4af37;
+    color: var(--brand-accent);
     font-size: 12px;
     font-weight: 700;
     margin-top: 3px;
@@ -235,12 +247,12 @@
 
 .desktop-nav > a:hover,
 .admin-toggle:hover {
-    color: #d4af37;
-    background: rgba(212, 175, 55, 0.08);
+    color: var(--brand-secondary);
+    background: rgba(32, 169, 212, 0.10);
 }
 
 .desktop-nav > a.active {
-    color: #d4af37;
+    color: var(--brand-secondary);
 }
 
 .admin-menu {
@@ -268,7 +280,7 @@
     right: 0;
     width: 230px;
     background: #f8f5ee;
-    border: 1px solid rgba(212, 175, 55, 0.2);
+    border: 1px solid rgba(243, 154, 30, 0.2);
     border-radius: 13px;
     padding: 8px;
     box-shadow: 0 18px 45px rgba(15, 23, 42, 0.15);
@@ -298,21 +310,21 @@
 }
 
 .admin-dropdown a:hover {
-    background: rgba(212, 175, 55, 0.12);
+    background: rgba(243, 154, 30, 0.12);
     color: #0f172a;
 }
 
 .order-button {
-    background: #d4af37 !important;
-    color: #101828 !important;
+    background: var(--brand-secondary) !important;
+    color: var(--brand-primary) !important;
     padding: 11px 18px !important;
     margin-left: 5px;
-    box-shadow: 0 10px 20px rgba(212, 175, 55, 0.25);
+    box-shadow: 0 10px 20px rgba(243, 154, 30, 0.25);
 }
 
 .order-button:hover {
-    background: #c69c2a !important;
-    color: #101828 !important;
+    background: var(--brand-secondary-dark) !important;
+    color: var(--brand-primary) !important;
     transform: translateY(-1px);
 }
 
@@ -325,7 +337,7 @@
     height: 44px;
     border: none;
     border-radius: 10px;
-    background: rgba(212, 175, 55, 0.12);
+    background: rgba(243, 154, 30, 0.12);
     cursor: pointer;
     padding: 9px;
 }
@@ -333,7 +345,7 @@
 .mobile-menu-button span {
     display: block;
     height: 2px;
-    background: #d4af37;
+    background: var(--brand-secondary);
     margin: 5px 0;
     border-radius: 5px;
 }
@@ -345,7 +357,7 @@
     display: none;
     padding: 10px 20px 22px;
     background: #0f172a;
-    border-top: 1px solid rgba(212, 175, 55, 0.2);
+    border-top: 1px solid rgba(243, 154, 30, 0.2);
 }
 
 .mobile-nav a {
@@ -359,22 +371,22 @@
 }
 
 .mobile-nav a:hover {
-    background: rgba(212, 175, 55, 0.08);
-    color: #d4af37;
+    background: rgba(243, 154, 30, 0.08);
+    color: var(--brand-secondary);
 }
 
 .mobile-admin-title {
     margin-top: 8px;
     padding: 13px 12px 7px;
-    color: #d4af37;
+    color: var(--brand-secondary);
     font-size: 12px;
     font-weight: 800;
     letter-spacing: 1px;
 }
 
 .mobile-order-button {
-    background: #d4af37 !important;
-    color: #101828 !important;
+    background: var(--brand-secondary) !important;
+    color: var(--brand-primary) !important;
     text-align: center;
     margin-top: 8px;
 }

@@ -13,7 +13,7 @@
         <div class="forgot-card">
 
             <div class="forgot-logo">
-                <img src="{{ asset('favicon.png') }}" alt="Kessy Brothers Food logo">
+                <img src="{{ asset('images/kessy-tech-pro-logo.png') }}" alt="Kessy Tech Pro logo">
             </div>
 
             <h1>Forgot Password?</h1>
@@ -149,7 +149,7 @@
 
     background: linear-gradient(
         135deg,
-        #2563eb,
+        var(--brand-accent),
         #06b6d4
     );
 
@@ -160,7 +160,7 @@
     font-size: 32px;
 
     box-shadow:
-        0 10px 25px rgba(37, 99, 235, 0.25);
+        0 10px 25px rgba(32, 169, 212, 0.25);
 }
 
 .forgot-logo img {
@@ -228,10 +228,10 @@
 }
 
 .form-group input:focus {
-    border-color: #2563eb;
+    border-color: var(--brand-accent);
 
     box-shadow:
-        0 0 0 4px rgba(37, 99, 235, 0.10);
+        0 0 0 4px rgba(32, 169, 212, 0.10);
 }
 
 .reset-button {
@@ -245,7 +245,7 @@
 
     background: linear-gradient(
         135deg,
-        #2563eb,
+        var(--brand-accent),
         #06b6d4
     );
 
@@ -264,7 +264,7 @@
     transform: translateY(-2px);
 
     box-shadow:
-        0 12px 25px rgba(37, 99, 235, 0.25);
+        0 12px 25px rgba(32, 169, 212, 0.25);
 }
 
 .success-message {
@@ -310,7 +310,7 @@
 }
 
 .back-login a {
-    color: #2563eb;
+    color: var(--brand-accent);
 
     font-weight: 700;
 
@@ -336,7 +336,7 @@
 }
 
 .back-home a:hover {
-    color: #2563eb;
+    color: var(--brand-accent);
 }
 
 
