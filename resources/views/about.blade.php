@@ -57,7 +57,7 @@
         display: inline-block;
         padding: 9px 17px;
         border-radius: 50px;
-        background: rgba(255, 99, 56, 0.95);
+        background: rgba(243, 154, 30, 0.95);
         color: #ffffff;
         font-size: 13px;
         font-weight: 800;
@@ -113,9 +113,9 @@
     }
 
     .about-btn-primary {
-        background: #ff6338;
+        background: var(--brand-secondary);
         color: #ffffff;
-        box-shadow: 0 10px 25px rgba(255, 99, 56, 0.35);
+        box-shadow: 0 10px 25px rgba(243, 154, 30, 0.35);
     }
 
     .about-btn-primary:hover {
@@ -173,7 +173,7 @@
         position: absolute;
         right: -25px;
         bottom: 30px;
-        background: #ff6338;
+        background: var(--brand-secondary);
         color: #ffffff;
         padding: 20px 24px;
         border-radius: 18px;
@@ -182,7 +182,7 @@
     }
 
     .section-label {
-        color: #ff6338;
+        color: var(--brand-secondary);
         font-weight: 800;
         text-transform: uppercase;
         letter-spacing: 2px;
@@ -199,7 +199,7 @@
     }
 
     .story-content h2 span {
-        color: #ff6338;
+        color: var(--brand-secondary);
     }
 
     .story-content p {
@@ -264,7 +264,7 @@
         justify-content: center;
         border-radius: 16px;
         background: #fff0eb;
-        color: #ff6338;
+        color: var(--brand-secondary);
         font-size: 25px;
         margin-bottom: 22px;
     }
@@ -315,7 +315,7 @@
     .why-number {
         font-size: 13px;
         font-weight: 800;
-        color: #ff6338;
+        color: var(--brand-secondary);
         margin-bottom: 15px;
     }
 

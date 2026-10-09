@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\UserLoginActivity;
 
 class LoginController extends Controller
 {
@@ -18,7 +19,11 @@ class LoginController extends Controller
 
             $request->session()->regenerate();
 
-            return redirect('/dashboard');
+            $destination = Auth::user()->isAdmin()
+                ? route('admin.dashboard')
+                : route('dashboard');
+
+            return redirect()->intended($destination);
         }
 
         return back()->withErrors([
@@ -28,6 +33,10 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
+        if ($request->user()) {
+            UserLoginActivity::closeCurrentSession($request, $request->user());
+        }
+
         Auth::logout();
 
         $request->session()->invalidate();

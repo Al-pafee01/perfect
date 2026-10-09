@@ -66,8 +66,8 @@
     .form-group input:focus,
     .form-group select:focus,
     .form-group textarea:focus {
-        border-color: #2563eb;
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, .10);
+        border-color: var(--brand-accent);
+        box-shadow: 0 0 0 3px rgba(32, 169, 212, .10);
     }
 
     .form-group textarea {
@@ -100,7 +100,7 @@
     .availability-box input {
         width: 18px;
         height: 18px;
-        accent-color: #2563eb;
+        accent-color: var(--brand-accent);
     }
 
     .availability-box label {
@@ -141,12 +141,12 @@
     }
 
     .update-btn {
-        background: #2563eb;
+        background: var(--brand-accent);
         color: white;
     }
 
     .update-btn:hover {
-        background: #1d4ed8;
+        background: var(--brand-accent-dark);
         transform: translateY(-2px);
     }
 
@@ -207,6 +207,7 @@
             <form
                 action="{{ route('foods.update', $food) }}"
                 method="POST"
+                enctype="multipart/form-data"
             >
 
                 @csrf
@@ -249,52 +250,13 @@
                         Category
                     </label>
 
-                    <select
+                    <input
                         id="category"
                         name="category"
+                        value="{{ old('category', $food->category) }}"
+                        placeholder="e.g. burgers, pizza, vegetarian"
                         required
                     >
-
-                        <option value="">
-                            Select Category
-                        </option>
-
-                        <option
-                            value="burgers"
-                            {{ old('category', $food->category) == 'burgers' ? 'selected' : '' }}
-                        >
-                            Burgers
-                        </option>
-
-                        <option
-                            value="pizza"
-                            {{ old('category', $food->category) == 'pizza' ? 'selected' : '' }}
-                        >
-                            Pizza
-                        </option>
-
-                        <option
-                            value="pasta"
-                            {{ old('category', $food->category) == 'pasta' ? 'selected' : '' }}
-                        >
-                            Pasta
-                        </option>
-
-                        <option
-                            value="grill"
-                            {{ old('category', $food->category) == 'grill' ? 'selected' : '' }}
-                        >
-                            Grill
-                        </option>
-
-                        <option
-                            value="drinks"
-                            {{ old('category', $food->category) == 'drinks' ? 'selected' : '' }}
-                        >
-                            Drinks
-                        </option>
-
-                    </select>
 
                     @error('category')
 
@@ -365,21 +327,22 @@
 
                 <div class="form-group">
 
-                    <label for="image">
-                        Image Name
-                    </label>
+                    <label for="image">Food photo</label>
 
                     <input
-                        type="text"
+                        type="file"
                         id="image"
                         name="image"
-                        value="{{ old('image', $food->image) }}"
-                        placeholder="e.g. burger.jpg"
+                        accept="image/jpeg,image/png,image/webp"
                     >
 
                     <div class="form-help">
-                        Real image upload will be connected later.
+                        Upload a new JPG, PNG or WebP image (maximum 4 MB). Leave empty to keep the current image.
                     </div>
+
+                    @if($food->image)
+                        <img src="{{ $food->image_url }}" alt="{{ $food->name }}" style="width: 180px; height: 120px; object-fit: cover; border-radius: 12px; margin-top: 12px;">
+                    @endif
 
                     @error('image')
 

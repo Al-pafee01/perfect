@@ -477,7 +477,12 @@
                                         </div>
 
 
-                                        @if($order->address)
+                                        @if($order->fulfillment_type === 'pickup')
+                                            <div class="delivery-info">
+                                                <span>🏃 Pickup</span>
+                                                <p>You chose to pick up this order.</p>
+                                            </div>
+                                        @elseif($order->address)
 
                                             <div class="delivery-info">
 
@@ -591,6 +596,20 @@
                                     @endif
 
                                 </div>
+
+                                @if($order->status !== 'cancelled')
+                                    @php
+                                        $trackingSteps = ['pending', 'preparing', 'ready', 'completed'];
+                                        $currentStep = array_search($order->status, $trackingSteps, true);
+                                    @endphp
+                                    <ol class="tracking-steps" aria-label="Order progress">
+                                        @foreach($trackingSteps as $step)
+                                            <li class="{{ $currentStep !== false && $loop->index <= $currentStep ? 'is-complete' : '' }}">
+                                                <span>{{ ucfirst($step) }}</span>
+                                            </li>
+                                        @endforeach
+                                    </ol>
+                                @endif
 
                             </div>
 
@@ -902,7 +921,7 @@
 
     justify-content: center;
 
-    background: #2563eb;
+    background: var(--brand-accent);
 
     color: white;
 
@@ -1159,7 +1178,7 @@
 
     margin-top: auto;
 
-    color: #2563eb;
+    color: var(--brand-accent);
 
     font-size: 23px;
 
@@ -1218,7 +1237,7 @@
 
     padding: 11px 18px;
 
-    background: #2563eb;
+    background: var(--brand-accent);
 
     color: white;
 
@@ -1236,7 +1255,7 @@
 
 .new-order-button:hover {
 
-    background: #1d4ed8;
+    background: var(--brand-accent-dark);
 
     transform: translateY(-2px);
 
@@ -1291,7 +1310,7 @@
 
     padding: 12px 20px;
 
-    background: #2563eb;
+    background: var(--brand-accent);
 
     color: white;
 
@@ -1600,7 +1619,7 @@
 
 .total-line strong {
 
-    color: #2563eb;
+    color: var(--brand-accent);
 
     font-size: 19px;
 
@@ -1656,6 +1675,46 @@
 
     border-top: 1px solid #e2e8f0;
 
+}
+
+.tracking-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    padding: 0;
+    margin: 18px 0 4px;
+    list-style: none;
+}
+
+.tracking-steps li {
+    position: relative;
+    padding-top: 17px;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.tracking-steps li::before {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    border: 2px solid #cbd5e1;
+    border-radius: 50%;
+    background: white;
+    content: "";
+    transform: translateX(-50%);
+}
+
+.tracking-steps li.is-complete {
+    color: var(--brand-accent-dark);
+}
+
+.tracking-steps li.is-complete::before {
+    border-color: #21b4d5;
+    background: #21b4d5;
 }
 
 .order-status-message span {
@@ -1760,7 +1819,7 @@
         linear-gradient(
             135deg,
             #0f172a,
-            #1d4ed8
+            var(--brand-accent-dark)
         );
 
     color: white;

@@ -41,7 +41,7 @@
 
     .add-food-btn {
         display: inline-block;
-        background: #ff6338;
+        background: var(--brand-secondary);
         color: white;
         text-decoration: none;
         padding: 13px 22px;
@@ -133,7 +133,7 @@
     .category-badge {
         display: inline-block;
         background: #eff6ff;
-        color: #2563eb;
+        color: var(--brand-accent);
         padding: 6px 11px;
         border-radius: 20px;
         font-size: .8rem;
@@ -207,7 +207,7 @@
 
     .edit-btn {
         background: #eff6ff;
-        color: #2563eb;
+        color: var(--brand-accent);
     }
 
     .edit-btn:hover {
@@ -251,10 +251,28 @@
         margin-top: 10px;
     }
 
+    .foods-pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 14px;
+        margin-top: 24px;
+        color: #526174;
+    }
+
+    .foods-pagination a {
+        padding: 8px 14px;
+        border-radius: 10px;
+        background: var(--brand-primary);
+        color: white;
+        text-decoration: none;
+        font-weight: 700;
+    }
+
     .empty-add-btn {
         display: inline-block;
         margin-top: 20px;
-        background: #ff6338;
+        background: var(--brand-secondary);
         color: white;
         text-decoration: none;
         padding: 12px 20px;
@@ -560,6 +578,18 @@
             </div>
 
 
+        @endif
+
+        @if($foods->hasPages())
+            <nav class="foods-pagination" aria-label="Food pages">
+                <span>Page {{ $foods->currentPage() }} of {{ $foods->lastPage() }}</span>
+                @if($foods->previousPageUrl())
+                    <a href="{{ $foods->previousPageUrl() }}" rel="prev">Previous</a>
+                @endif
+                @if($foods->nextPageUrl())
+                    <a href="{{ $foods->nextPageUrl() }}" rel="next">Next</a>
+                @endif
+            </nav>
         @endif
 
 

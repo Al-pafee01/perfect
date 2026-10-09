@@ -52,6 +52,66 @@
         margin-bottom: 50px;
     }
 
+    .menu-filters input,
+    .menu-filters select {
+        min-height: 46px;
+        min-width: 150px;
+        padding: 10px 14px;
+        border: 1px solid #cbd5e1;
+        border-radius: 12px;
+        background: white;
+        color: #102033;
+        font: inherit;
+    }
+
+    .menu-filters input:focus,
+    .menu-filters select:focus {
+        outline: 3px solid rgba(32, 169, 212, .2);
+        border-color: var(--brand-accent);
+    }
+
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    .menu-filters input,
+    .menu-filters select {
+        min-height: 46px;
+        min-width: 150px;
+        padding: 10px 14px;
+        border: 1px solid #cbd5e1;
+        border-radius: 12px;
+        background: white;
+        color: #102033;
+        font: inherit;
+    }
+
+    .menu-filters input:focus,
+    .menu-filters select:focus {
+        outline: 3px solid rgba(41, 184, 218, .2);
+        border-color: #29b8da;
+    }
+
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
     .filter-btn {
         border: none;
         background: white;
@@ -62,13 +122,39 @@
         font-weight: 700;
         box-shadow: 0 5px 20px rgba(15, 23, 42, .08);
         transition: .3s;
+        text-decoration: none;
     }
 
     .filter-btn:hover,
     .filter-btn.active {
-        background: #ff6338;
-        color: white;
+        background: #f0a51a;
+        color: #102033;
         transform: translateY(-2px);
+    }
+
+    .menu-login-note {
+        margin: -28px 0 32px;
+        color: #526174;
+        text-align: center;
+    }
+
+    .menu-pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin: 32px 0;
+        color: #526174;
+    }
+
+    .menu-pagination a {
+        padding: 9px 14px;
+        border-radius: 10px;
+        background: var(--brand-primary);
+        color: white;
+        text-decoration: none;
+        font-weight: 700;
     }
 
     .food-grid {
@@ -111,8 +197,8 @@
         position: absolute;
         top: 15px;
         left: 15px;
-        background: #ff6338;
-        color: white;
+        background: #f0a51a;
+        color: var(--brand-primary);
         padding: 7px 14px;
         border-radius: 30px;
         font-size: .8rem;
@@ -146,7 +232,7 @@
     .food-price {
         font-size: 1.2rem;
         font-weight: 800;
-        color: #ff6338;
+        color: var(--brand-secondary);
     }
 
     .order-btn {
@@ -160,7 +246,7 @@
     }
 
     .order-btn:hover {
-        background: #ff6338;
+        background: var(--brand-secondary);
         color: white;
     }
 
@@ -197,7 +283,7 @@
     .cta-btn {
         display: inline-block;
         text-decoration: none;
-        background: #ff6338;
+        background: var(--brand-secondary);
         color: white;
         padding: 14px 28px;
         border-radius: 12px;
@@ -207,7 +293,7 @@
 
     .cta-btn:hover {
         transform: translateY(-3px);
-        background: #ff4b1f;
+        background: #d88c08;
     }
 
     @media (max-width: 950px) {
@@ -227,6 +313,18 @@
 
         .food-image {
             height: 220px;
+        }
+
+        .menu-filters {
+            align-items: stretch;
+        }
+
+        .menu-filters input,
+        .menu-filters select,
+        .menu-filters .filter-btn {
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
         }
     }
 </style>
@@ -248,33 +346,48 @@
     <section class="menu-container">
 
         <!-- FILTERS -->
-        <div class="menu-filters">
+        <form class="menu-filters" method="GET" action="{{ route('menu') }}">
 
-            <button class="filter-btn active" data-filter="all">
-                All
-            </button>
+            <label class="sr-only" for="menu-search">Search meals</label>
+            <input
+                id="menu-search"
+                type="search"
+                name="search"
+                value="{{ request('search') }}"
+                placeholder="Search meals..."
+                aria-label="Search meals"
+            >
 
-            <button class="filter-btn" data-filter="burgers">
-                Burgers
-            </button>
+            <label class="sr-only" for="menu-category">Category</label>
+            <select id="menu-category" name="category" aria-label="Filter by category">
+                <option value="">All categories</option>
+                @foreach($categories as $category)
+                    <option value="{{ $category }}" @selected(request('category') === $category)>
+                        {{ ucfirst($category) }}
+                    </option>
+                @endforeach
+            </select>
 
-            <button class="filter-btn" data-filter="pizza">
-                Pizza
-            </button>
+            <label class="sr-only" for="menu-max-price">Maximum price in TSh</label>
+            <input
+                id="menu-max-price"
+                type="number"
+                name="max_price"
+                min="0"
+                step="500"
+                value="{{ request('max_price') }}"
+                placeholder="Max price (TSh)"
+            >
 
-            <button class="filter-btn" data-filter="pasta">
-                Pasta
-            </button>
+            <button class="filter-btn active" type="submit">Find meals</button>
+            <a class="filter-btn" href="{{ route('menu') }}">Clear</a>
+        </form>
 
-            <button class="filter-btn" data-filter="grill">
-                Grill
-            </button>
-
-            <button class="filter-btn" data-filter="drinks">
-                Drinks
-            </button>
-
-        </div>
+        @guest
+            <p class="menu-login-note">
+                Sign in or create an account when you are ready to order. Your order is placed after you log in.
+            </p>
+        @endguest
 
 
         <!-- FOOD GRID -->
@@ -288,16 +401,12 @@
                     <article
                         class="food-card"
                         data-category="{{ strtolower($food->category) }}"
-                        id="{{ strtolower($food->category) }}"
                     >
 
                         <div class="food-image">
 
                             <img
-                                src="{{ $food->image
-                                    ? asset('images/foods/' . $food->image)
-                                    : 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=80'
-                                }}"
+                                src="{{ $food->image_url }}"
                                 alt="{{ $food->name }}"
                             >
 
@@ -315,7 +424,7 @@
                             </h3>
 
                             <p>
-                                {{ $food->description }}
+                                {{ $food->description ?: 'Freshly prepared with care using quality ingredients.' }}
                             </p>
 
 
@@ -353,6 +462,17 @@
 
         @endif
 
+        @if($foods->hasPages())
+            <nav class="menu-pagination" aria-label="Menu pages">
+                <span>Page {{ $foods->currentPage() }} of {{ $foods->lastPage() }}</span>
+                @if($foods->previousPageUrl())
+                    <a href="{{ $foods->previousPageUrl() }}" rel="prev">Previous</a>
+                @endif
+                @if($foods->nextPageUrl())
+                    <a href="{{ $foods->nextPageUrl() }}" rel="next">Next</a>
+                @endif
+            </nav>
+        @endif
 
         <!-- CTA -->
 
@@ -374,42 +494,5 @@
 
 </div>
 
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-
-    const buttons = document.querySelectorAll('.filter-btn');
-    const cards = document.querySelectorAll('.food-card');
-
-    buttons.forEach(button => {
-
-        button.addEventListener('click', function () {
-
-            const filter = this.dataset.filter;
-
-            buttons.forEach(btn => {
-                btn.classList.remove('active');
-            });
-
-            this.classList.add('active');
-
-            cards.forEach(card => {
-
-                const category = card.dataset.category;
-
-                if (filter === 'all' || category === filter) {
-                    card.style.display = '';
-                } else {
-                    card.style.display = 'none';
-                }
-
-            });
-
-        });
-
-    });
-
-});
-</script>
 
 @endsection

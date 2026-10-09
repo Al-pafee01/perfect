@@ -57,3 +57,49 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Kessy Brothers Food
+
+The restaurant storefront uses the Kessy Tech Pro logo palette: navy, warm
+orange/gold, and cyan blue. The homepage and menu read available meals from the
+database; administrators can upload JPG, PNG, or WebP food photos up to 4 MB.
+
+After pulling the application changes, run the database migrations and create
+Laravel's public storage link so uploaded food photos can be served:
+
+```sh
+php artisan migrate
+php artisan storage:link
+```
+
+Customers must sign in before opening checkout. They can choose delivery or
+pickup and track account orders in the customer dashboard. Completed-sales
+reports use the `completed_at` timestamp, so only orders completed after the
+new migration contribute to the date-based sales totals.
+
+New customer accounts must verify their email before accessing account,
+checkout, or administrator pages. In the production environment, configure
+`APP_NAME="Kessy Brothers Food"`, `APP_URL` to the public HTTPS site address,
+and set `MAIL_MAILER=smtp`,
+`MAIL_SCHEME=smtps`, `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`,
+`MAIL_PASSWORD`, and `MAIL_FROM_ADDRESS` so verification and password-reset
+messages reach customers. Both email types use Kessy Brothers Food branding
+and do not include Laravel's default logo. Password-reset links expire after
+60 minutes by default. Keep SMTP credentials in the server's `.env`, not in
+source control.
+The default local mailer writes messages to the Laravel log instead of sending
+them to an inbox.
+
+Customer registration collects a phone number and gender preference. For
+account security, the admin-only customer area stores login IP, an abbreviated
+device/platform/browser description, login time, last activity, and explicit
+logout time. A session with no explicit logout is shown as inactive after the
+configured session lifetime; closing a browser does not provide an exact
+logout timestamp. Deactivating an account preserves its orders and login
+history, and an administrator can restore it. Customer password assistance
+uses a reset link sent to the customer's email; administrators never see a
+customer's password.
+
+Online payment processing and delivery fees are not enabled: connect a selected
+payment provider and configure the restaurant's actual delivery rules before
+collecting money or charging delivery in production.

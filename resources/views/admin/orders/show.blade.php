@@ -75,6 +75,11 @@
                     </div>
 
                     <div class="info-row">
+                        <span>Fulfillment</span>
+                        <strong>{{ ucfirst($order->fulfillment_type ?? 'delivery') }}</strong>
+                    </div>
+
+                    <div class="info-row">
                         <span>Phone</span>
                         <strong>
                             {{ $order->phone ?? 'No phone' }}
@@ -82,9 +87,9 @@
                     </div>
 
                     <div class="info-row">
-                        <span>Address</span>
+                        <span>{{ ($order->fulfillment_type ?? 'delivery') === 'pickup' ? 'Pickup' : 'Delivery address' }}</span>
                         <strong>
-                            {{ $order->address ?? 'No address provided' }}
+                            {{ $order->address ?? (($order->fulfillment_type ?? 'delivery') === 'pickup' ? 'Customer will pick up' : 'No address provided') }}
                         </strong>
                     </div>
 
@@ -264,7 +269,7 @@
     display: inline-flex;
     align-items: center;
     margin-bottom: 25px;
-    color: #2563eb;
+    color: var(--brand-accent);
     font-weight: 700;
     text-decoration: none;
 }
@@ -282,7 +287,7 @@
 }
 
 .page-label {
-    color: #2563eb;
+    color: var(--brand-accent);
     font-size: 12px;
     font-weight: 800;
     letter-spacing: 2px;
@@ -322,7 +327,7 @@
 
 .status-preparing {
     background: #dbeafe;
-    color: #1d4ed8;
+    color: var(--brand-accent-dark);
 }
 
 .status-ready {
@@ -432,7 +437,7 @@
     min-height: 48px;
     border: none;
     border-radius: 10px;
-    background: #2563eb;
+    background: var(--brand-accent);
     color: white;
     font-weight: 800;
     cursor: pointer;
@@ -440,7 +445,7 @@
 }
 
 .update-button:hover {
-    background: #1d4ed8;
+    background: var(--brand-accent-dark);
     transform: translateY(-1px);
 }
 
@@ -507,7 +512,7 @@
 }
 
 .total-section strong {
-    color: #2563eb;
+    color: var(--brand-accent);
     font-size: 24px;
 }
 

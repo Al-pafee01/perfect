@@ -66,8 +66,8 @@
     .form-group input:focus,
     .form-group select:focus,
     .form-group textarea:focus {
-        border-color: #2563eb;
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, .10);
+        border-color: var(--brand-accent);
+        box-shadow: 0 0 0 3px rgba(32, 169, 212, .10);
     }
 
     .form-group textarea {
@@ -100,7 +100,7 @@
     .availability-box input {
         width: 18px;
         height: 18px;
-        accent-color: #2563eb;
+        accent-color: var(--brand-accent);
     }
 
     .availability-box label {
@@ -141,7 +141,7 @@
     }
 
     .save-btn {
-        background: #ff6338;
+        background: var(--brand-secondary);
         color: white;
     }
 
@@ -206,6 +206,7 @@
             <form
                 action="{{ route('foods.store') }}"
                 method="POST"
+                enctype="multipart/form-data"
             >
 
                 @csrf
@@ -247,52 +248,13 @@
                         Category
                     </label>
 
-                    <select
+                    <input
                         id="category"
                         name="category"
+                        value="{{ old('category') }}"
+                        placeholder="e.g. burgers, pizza, vegetarian"
                         required
                     >
-
-                        <option value="">
-                            Select Category
-                        </option>
-
-                        <option
-                            value="burgers"
-                            {{ old('category') == 'burgers' ? 'selected' : '' }}
-                        >
-                            Burgers
-                        </option>
-
-                        <option
-                            value="pizza"
-                            {{ old('category') == 'pizza' ? 'selected' : '' }}
-                        >
-                            Pizza
-                        </option>
-
-                        <option
-                            value="pasta"
-                            {{ old('category') == 'pasta' ? 'selected' : '' }}
-                        >
-                            Pasta
-                        </option>
-
-                        <option
-                            value="grill"
-                            {{ old('category') == 'grill' ? 'selected' : '' }}
-                        >
-                            Grill
-                        </option>
-
-                        <option
-                            value="drinks"
-                            {{ old('category') == 'drinks' ? 'selected' : '' }}
-                        >
-                            Drinks
-                        </option>
-
-                    </select>
 
                     @error('category')
 
@@ -364,20 +326,17 @@
 
                 <div class="form-group">
 
-                    <label for="image">
-                        Image Name
-                    </label>
+                    <label for="image">Food photo</label>
 
                     <input
-                        type="text"
+                        type="file"
                         id="image"
                         name="image"
-                        value="{{ old('image') }}"
-                        placeholder="e.g. burger.jpg"
+                        accept="image/jpeg,image/png,image/webp"
                     >
 
                     <div class="form-help">
-                        We will connect real image uploads later.
+                        Upload a JPG, PNG or WebP image (maximum 4 MB).
                     </div>
 
                     @error('image')
@@ -402,7 +361,7 @@
                             id="is_available"
                             name="is_available"
                             value="1"
-                            checked
+                            {{ old('is_available', true) ? 'checked' : '' }}
                         >
 
                         <label for="is_available">

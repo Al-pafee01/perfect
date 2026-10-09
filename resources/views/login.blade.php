@@ -14,7 +14,7 @@
 
             {{-- Logo --}}
             <div class="login-logo">
-                <img src="{{ asset('favicon.png') }}" alt="Kessy Brothers Food logo">
+                <img src="{{ asset('images/kessy-tech-pro-logo.png') }}" alt="Kessy Tech Pro logo">
             </div>
 
             <h1>Welcome Back</h1>
@@ -255,20 +255,11 @@
 
 .login-logo {
 
-    width: 70px;
+    width: 150px;
 
-    height: 70px;
+    height: 115px;
 
     margin: 0 auto 20px;
-
-    border-radius: 20px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #2563eb,
-            #06b6d4
-        );
 
     display: flex;
 
@@ -276,16 +267,11 @@
 
     justify-content: center;
 
-    font-size: 32px;
-
-    box-shadow:
-        0 10px 25px rgba(37, 99, 235, 0.25);
-
 }
 
 .login-logo img {
-    width: 48px;
-    height: 48px;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
 }
 
@@ -370,7 +356,7 @@
 
 .password-label a {
 
-    color: #2563eb;
+    color: var(--brand-accent);
 
     font-size: 13px;
 
@@ -419,10 +405,10 @@
 .form-group input:focus,
 .password-wrapper input:focus {
 
-    border-color: #2563eb;
+    border-color: var(--brand-accent);
 
     box-shadow:
-        0 0 0 4px rgba(37, 99, 235, 0.10);
+        0 0 0 4px rgba(32, 169, 212, 0.10);
 
 }
 
@@ -517,7 +503,7 @@
 
     height: 16px;
 
-    accent-color: #2563eb;
+    accent-color: var(--brand-accent);
 
 }
 
@@ -537,7 +523,7 @@
     background:
         linear-gradient(
             135deg,
-            #2563eb,
+            var(--brand-accent),
             #06b6d4
         );
 
@@ -559,7 +545,7 @@
     transform: translateY(-2px);
 
     box-shadow:
-        0 12px 25px rgba(37, 99, 235, 0.25);
+        0 12px 25px rgba(32, 169, 212, 0.25);
 
 }
 
@@ -625,7 +611,7 @@
 
 .register-link a {
 
-    color: #2563eb;
+    color: var(--brand-accent);
 
     font-weight: 800;
 
@@ -665,7 +651,7 @@
 
 .home-link a:hover {
 
-    color: #2563eb;
+    color: var(--brand-accent);
 
 }
 

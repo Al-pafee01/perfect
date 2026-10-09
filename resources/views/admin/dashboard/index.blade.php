@@ -29,7 +29,7 @@
             </div>
 
             <div class="admin-hero-icon">
-                <img src="{{ asset('favicon.png') }}" alt="Kessy Brothers Food logo">
+                <img src="{{ asset('images/kessy-tech-pro-logo.png') }}" alt="Kessy Tech Pro logo">
             </div>
 
         </div>
@@ -67,6 +67,13 @@
                         class="action-button blue"
                     >
                         📦 Manage Orders
+                    </a>
+
+                    <a
+                        href="{{ route('admin.users.index') }}"
+                        class="action-button blue"
+                    >
+                        👥 Manage Customers
                     </a>
 
                     <a
@@ -237,10 +244,42 @@
                         </strong>
 
                     </div>
-
                 </div>
 
+                <div class="stat-card">
+                    <div class="stat-icon blue-icon">💰</div>
+                    <div class="stat-info">
+                        <span>Today's completed sales</span>
+                        <strong>TSh {{ number_format($todayRevenue) }}</strong>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon blue-icon">📈</div>
+                    <div class="stat-info">
+                        <span>This month's completed sales</span>
+                        <strong>TSh {{ number_format($monthRevenue) }}</strong>
+                    </div>
+                </div>
             </div>
+
+            <section class="recent-section">
+                    <div class="section-heading">
+                        <div>
+                            <span class="section-label">MENU PERFORMANCE</span>
+                            <h2>Popular Foods</h2>
+                            <p>Top ordered meals, excluding cancelled orders.</p>
+                        </div>
+                    </div>
+                    @forelse($popularFoods as $food)
+                        <div class="popular-food-row">
+                            <span>{{ $loop->iteration }}. {{ $food->name }}</span>
+                            <strong>{{ number_format($food->quantity_sold) }} sold</strong>
+                        </div>
+                    @empty
+                        <p>No completed meal activity yet.</p>
+                    @endforelse
+            </section>
 
 
             {{-- =================================================
@@ -765,7 +804,7 @@
 
 .action-button.blue {
 
-    background: #2563eb;
+    background: var(--brand-accent);
 
 }
 
@@ -915,6 +954,25 @@
 
 }
 
+.popular-food-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 13px 16px;
+    border-bottom: 1px solid #e2e8f0;
+    color: #26364b;
+}
+
+.popular-food-row:last-child {
+    border-bottom: 0;
+}
+
+.popular-food-row strong {
+    color: var(--brand-accent-dark);
+    white-space: nowrap;
+}
+
 .section-heading {
 
     display: flex;
@@ -941,7 +999,7 @@
 
     padding: 11px 17px;
 
-    background: #2563eb;
+    background: var(--brand-accent);
 
     color: white;
 
@@ -1158,7 +1216,7 @@
 
     margin-top: 4px;
 
-    color: #2563eb;
+    color: var(--brand-accent);
 
     font-size: 14px;
 
@@ -1236,7 +1294,7 @@
 
 .view-order {
 
-    color: #2563eb;
+    color: var(--brand-accent);
 
     text-decoration: none;
 
@@ -1365,7 +1423,7 @@
 
     margin-left: auto;
 
-    color: #2563eb;
+    color: var(--brand-accent);
 
     font-size: 22px;
 

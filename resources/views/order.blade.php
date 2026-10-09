@@ -58,7 +58,7 @@
                         >
 
                             <div class="food-info">
-                                <div class="food-icon">🍽️</div>
+                                <img class="food-item-image" src="{{ $food->image_url }}" alt="" loading="lazy">
 
                                 <div>
                                     <h3>{{ $food->name }}</h3>
@@ -98,6 +98,23 @@
                             <h2>Your Information</h2>
                         </div>
 
+                        <fieldset class="fulfillment-choice">
+                            <legend>How would you like to receive your order?</legend>
+                            <label>
+                                <input type="radio" name="fulfillment_type" value="delivery"
+                                    @checked(old('fulfillment_type', 'delivery') === 'delivery')>
+                                Delivery
+                            </label>
+                            <small class="fulfillment-note">Any applicable delivery charge will be confirmed by the restaurant before preparation.</small>
+                            <label>
+                                <input type="radio" name="fulfillment_type" value="pickup"
+                                    @checked(old('fulfillment_type') === 'pickup')>
+                                Pickup
+                            </label>
+                            @error('fulfillment_type')
+                                <small class="error">{{ $message }}</small>
+                            @enderror
+                        </fieldset>
 
                         <div class="form-group">
 
@@ -111,6 +128,8 @@
                                 name="phone"
                                 placeholder="Enter your phone number"
                                 value="{{ old('phone') }}"
+                                autocomplete="tel"
+                                required
                             >
 
                             @error('phone')
@@ -133,6 +152,8 @@
                                 name="address"
                                 rows="3"
                                 placeholder="Enter your delivery address"
+                                autocomplete="street-address"
+                                @required(old('fulfillment_type', 'delivery') === 'delivery')
                             >{{ old('address') }}</textarea>
 
                             @error('address')
@@ -366,7 +387,7 @@
 }
 
 .section-heading span {
-    color: #2563eb;
+    color: var(--brand-accent);
 
     font-size: 13px;
 
@@ -450,6 +471,47 @@
     font-size: 30px;
 }
 
+.food-item-image {
+    flex: 0 0 76px;
+    width: 76px;
+    height: 76px;
+    border-radius: 14px;
+    object-fit: cover;
+}
+
+.fulfillment-choice {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin: 0 0 22px;
+    padding: 16px;
+    border: 1px solid #dbe3ed;
+    border-radius: 14px;
+}
+
+.fulfillment-choice legend {
+    padding: 0 7px;
+    color: #26364b;
+    font-weight: 700;
+}
+
+.fulfillment-choice label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #26364b;
+    font-weight: 600;
+}
+
+.fulfillment-choice input {
+    accent-color: var(--brand-accent);
+}
+
+.fulfillment-note {
+    flex-basis: 100%;
+    color: #64748b;
+}
+
 .food-info h3 {
     margin: 0 0 5px;
 
@@ -467,7 +529,7 @@
 }
 
 .food-info strong {
-    color: #2563eb;
+    color: var(--brand-accent);
 
     font-size: 15px;
 }
@@ -495,7 +557,7 @@
 
     background: #eff6ff;
 
-    color: #2563eb;
+    color: var(--brand-accent);
 
     font-size: 22px;
 
@@ -507,7 +569,7 @@
 }
 
 .quantity-btn:hover {
-    background: #2563eb;
+    background: var(--brand-accent);
 
     color: white;
 }
@@ -590,12 +652,12 @@
 
 .form-group input:focus,
 .form-group textarea:focus {
-    border-color: #2563eb;
+    border-color: var(--brand-accent);
 
     background: white;
 
     box-shadow:
-        0 0 0 3px rgba(37,99,235,.1);
+        0 0 0 3px rgba(32, 169, 212,.1);
 }
 
 .form-group textarea {
@@ -624,7 +686,7 @@
 
     margin-top: 22px;
 
-    background: #2563eb;
+    background: var(--brand-accent);
 
     color: white;
 
@@ -638,12 +700,12 @@
 }
 
 .confirm-order:hover {
-    background: #1d4ed8;
+    background: var(--brand-accent-dark);
 
     transform: translateY(-2px);
 
     box-shadow:
-        0 12px 25px rgba(37,99,235,.25);
+        0 12px 25px rgba(32, 169, 212,.25);
 }
 
 
@@ -795,7 +857,7 @@
 }
 
 .summary-total strong {
-    color: #2563eb;
+    color: var(--brand-accent);
 
     font-size: 22px;
 }
@@ -1050,6 +1112,24 @@ document.addEventListener('DOMContentLoaded', function () {
     updateOrder();
 
 });
+
+    const fulfillmentInputs = document.querySelectorAll('input[name="fulfillment_type"]');
+    const deliveryAddress = document.getElementById('address');
+
+    fulfillmentInputs.forEach(function (input) {
+input.addEventListener('change', function () {
+    const deliverySelected = this.value === 'delivery';
+    deliveryAddress.required = deliverySelected;
+    deliveryAddress.placeholder = deliverySelected
+        ? 'Enter your delivery address'
+        : 'Pickup order — address not required';
+});
+    });
+
+    const selectedFulfillment = document.querySelector('input[name="fulfillment_type"]:checked');
+    if (selectedFulfillment) {
+selectedFulfillment.dispatchEvent(new Event('change'));
+    }
 
 </script>
 

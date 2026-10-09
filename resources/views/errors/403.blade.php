@@ -9,7 +9,7 @@
     <div class="access-denied-card">
 
         <div class="access-denied-icon">
-            <img src="{{ asset('favicon.png') }}" alt="Kessy Brothers Food logo">
+            <img src="{{ asset('images/kessy-tech-pro-logo.png') }}" alt="Kessy Tech Pro logo">
         </div>
 
         <span class="access-denied-label">ADMIN AREA</span>
@@ -43,7 +43,7 @@
     place-items: center;
     padding: 90px 20px;
     background:
-        radial-gradient(circle at top right, rgba(255, 99, 56, .14), transparent 34%),
+        radial-gradient(circle at top right, rgba(243, 154, 30, .14), transparent 34%),
         #f8fafc;
 }
 
@@ -74,7 +74,7 @@
 }
 
 .access-denied-label {
-    color: #e94f28;
+    color: var(--brand-secondary);
     font-size: 12px;
     font-weight: 800;
     letter-spacing: 2px;
@@ -116,9 +116,9 @@
 }
 
 .access-denied-primary {
-    background: #ff6338;
+    background: var(--brand-secondary);
     color: #ffffff;
-    box-shadow: 0 10px 24px rgba(255, 99, 56, .24);
+    box-shadow: 0 10px 24px rgba(243, 154, 30, .24);
 }
 
 .access-denied-secondary {

@@ -168,7 +168,7 @@
 }
 
 .header-label {
-    color: #2563eb;
+    color: var(--brand-accent);
     font-size: 13px;
     font-weight: 800;
     letter-spacing: 2px;
@@ -262,12 +262,12 @@ tbody tr:hover {
 
 .status.unread {
     background: #dbeafe;
-    color: #1d4ed8;
+    color: var(--brand-accent-dark);
 }
 
 .view-btn {
     display: inline-block;
-    background: #2563eb;
+    background: var(--brand-accent);
     color: white;
     text-decoration: none;
     padding: 9px 15px;
@@ -277,7 +277,7 @@ tbody tr:hover {
 }
 
 .view-btn:hover {
-    background: #1d4ed8;
+    background: var(--brand-accent-dark);
 }
 
 .empty-messages {
@@ -306,7 +306,7 @@ tbody tr:hover {
 
 .contact-btn {
     display: inline-block;
-    background: #2563eb;
+    background: var(--brand-accent);
     color: white;
     text-decoration: none;
     padding: 13px 20px;

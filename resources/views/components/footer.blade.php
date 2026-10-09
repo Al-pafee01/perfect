@@ -4,8 +4,8 @@
     <div class="footer-slides">
 
            <div class="footer-slide active"
-               data-caption="Signature burgers"
-               style="background-image:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=2000&q=85');">
+               data-caption="A warm dining atmosphere"
+               style="background-image:url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=2000&q=85');">
         </div>
 
            <div class="footer-slide"
@@ -31,11 +31,11 @@
 
     <div class="footer-slide-info" aria-live="polite">
         <span>Fresh from our kitchen</span>
-        <strong id="footerSlideCaption">Signature burgers</strong>
+        <strong id="footerSlideCaption">A warm dining atmosphere</strong>
     </div>
 
     <div class="footer-slide-controls" role="tablist" aria-label="Food gallery">
-        <button class="footer-slide-dot active" type="button" role="tab" aria-label="Show signature burgers" aria-selected="true" data-slide="0"></button>
+        <button class="footer-slide-dot active" type="button" role="tab" aria-label="Show the restaurant dining atmosphere" aria-selected="true" data-slide="0"></button>
         <button class="footer-slide-dot" type="button" role="tab" aria-label="Show freshly baked pizza" aria-selected="false" data-slide="1"></button>
         <button class="footer-slide-dot" type="button" role="tab" aria-label="Show creamy pasta favorites" aria-selected="false" data-slide="2"></button>
         <button class="footer-slide-dot" type="button" role="tab" aria-label="Show grilled with care" aria-selected="false" data-slide="3"></button>
@@ -50,7 +50,7 @@
         <div class="footer-brand">
 
             <a href="{{ url('/') }}" class="footer-logo">
-                <img src="{{ asset('favicon.png') }}" alt="Kessy Brothers Food logo">
+                <img src="{{ asset('images/kessy-tech-pro-logo.png') }}" alt="Kessy Tech Pro logo">
                 <span>Kessy Brothers Food</span>
             </a>
 
@@ -419,9 +419,14 @@
 
     overflow: hidden;
 
+    isolation: isolate;
+
     color: #ffffff;
 
-    background: #0b1220;
+    background:
+        radial-gradient(ellipse at 82% 12%, rgba(32, 169, 212, .2), transparent 38%),
+        radial-gradient(ellipse at 8% 92%, rgba(243, 154, 30, .14), transparent 34%),
+        linear-gradient(135deg, #111b2b 0%, #0b1220 58%, #101d2c 100%);
 
 }
 
@@ -486,8 +491,10 @@
     z-index: 1;
 
     background:
-        linear-gradient(90deg, rgba(5, 10, 20, .96) 0%, rgba(5, 10, 20, .78) 48%, rgba(5, 10, 20, .54) 100%),
-        linear-gradient(0deg, rgba(5, 10, 20, .92) 0%, transparent 42%);
+        radial-gradient(ellipse at 82% 8%, rgba(32, 169, 212, .16), transparent 38%),
+        radial-gradient(ellipse at 14% 100%, rgba(243, 154, 30, .12), transparent 36%),
+        linear-gradient(90deg, rgba(8, 15, 27, .94) 0%, rgba(8, 15, 27, .82) 48%, rgba(8, 15, 27, .66) 100%),
+        linear-gradient(0deg, rgba(8, 15, 27, .96) 0%, rgba(8, 15, 27, .08) 52%, rgba(8, 15, 27, .48) 100%);
 
 }
 
@@ -517,7 +524,7 @@
 
 .footer-slide-info span {
 
-    color: #ffb38f;
+    color: var(--brand-secondary);
 
     font-size: 10px;
 
@@ -580,9 +587,9 @@
 
     border-radius: 20px;
 
-    border-color: #ff6338;
+    border-color: var(--brand-secondary);
 
-    background: #ff6338;
+    background: var(--brand-secondary);
 
 
 }
@@ -603,6 +610,8 @@
     margin: auto;
 
     padding: 80px 25px 55px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, .12);
 
     display: grid;
 
@@ -660,7 +669,7 @@
 
 .footer-logo span {
 
-    color: #d4af37;
+    color: var(--brand-secondary);
 
 }
 
@@ -724,9 +733,9 @@
 
 .footer-social a:hover {
 
-    background: #d4af37;
+    background: var(--brand-secondary);
 
-    border-color: #d4af37;
+    border-color: var(--brand-secondary);
 
     transform:
         translateY(-4px);
@@ -768,7 +777,7 @@
 
     height: 3px;
 
-    background: #ff6338;
+    background: var(--brand-secondary);
 
     margin-top: 9px;
 
@@ -811,7 +820,7 @@
 
 .footer-column li a:hover {
 
-    color: #ff6338;
+    color: var(--brand-secondary);
 
     padding-left: 6px;
 
@@ -848,7 +857,7 @@
     justify-content: center;
 
     background:
-        rgba(255,99,56,.12);
+        rgba(243, 154, 30,.12);
 
     border-radius: 8px;
 
@@ -898,7 +907,7 @@
 
 .contact-item a:hover {
 
-    color: #ff6338;
+    color: var(--brand-secondary);
 
 }
 
@@ -1005,7 +1014,7 @@
 
     border: none;
 
-    background: #ff6338;
+    background: var(--brand-secondary);
 
     color: #ffffff;
 
@@ -1023,7 +1032,7 @@
 
 .newsletter-content button:hover {
 
-    background: #e94f28;
+    background: var(--brand-secondary);
 
 }
 
@@ -1099,7 +1108,7 @@
 
 .footer-bottom-links a:hover {
 
-    color: #ff6338;
+    color: var(--brand-secondary);
 
 }
 

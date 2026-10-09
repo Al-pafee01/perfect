@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\FoodController;
@@ -14,6 +13,9 @@ use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\ContactMessageController;
 use App\Http\Controllers\AdminContactMessageController;
+use App\Http\Controllers\EmailVerificationController;
+use App\Http\Controllers\PasswordResetController;
+use App\Http\Controllers\AdminUserController;
 
 
 /*
@@ -23,7 +25,35 @@ use App\Http\Controllers\AdminContactMessageController;
 */
 
 Route::get('/', function () {
-    return view('home');
+    $foods = \App\Models\Food::where('is_available', true)
+        ->withSum([
+            'orderItems as quantity_sold' => fn ($query) => $query->whereHas(
+                'order',
+                fn ($orders) => $orders->whereIn('status', ['pending', 'preparing', 'ready', 'completed'])
+            ),
+        ], 'quantity')
+        ->orderByDesc('quantity_sold')
+        ->latest()
+        ->take(3)
+        ->get();
+
+    $mealCount = \App\Models\Food::where('is_available', true)->count();
+    $categoryCount = \App\Models\Food::where('is_available', true)
+        ->distinct()
+        ->count('category');
+    $completedOrderCount = \App\Models\Order::where('status', 'completed')->count();
+    $customerCount = \App\Models\Order::where('status', 'completed')
+        ->whereNotNull('user_id')
+        ->distinct()
+        ->count('user_id');
+
+    return view('home', compact(
+        'foods',
+        'mealCount',
+        'categoryCount',
+        'completedOrderCount',
+        'customerCount'
+    ));
 });
 
 
@@ -82,6 +112,25 @@ Route::get('/login', function () {
 Route::post('/login', [LoginController::class, 'login'])
     ->name('login.store');
 
+/*
+|--------------------------------------------------------------------------
+| EMAIL VERIFICATION
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('auth')->group(function () {
+    Route::get('/email/verify', [EmailVerificationController::class, 'notice'])
+        ->name('verification.notice');
+
+    Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])
+        ->middleware(['signed', 'throttle:6,1'])
+        ->name('verification.verify');
+
+    Route::post('/email/verification-notification', [EmailVerificationController::class, 'send'])
+        ->middleware('throttle:6,1')
+        ->name('verification.send');
+});
+
 
 /*
 |--------------------------------------------------------------------------
@@ -117,28 +166,17 @@ Route::get('/forgot-password', function () {
 })->name('password.request');
 
 
-Route::post('/forgot-password', function (Request $request) {
+Route::post('/forgot-password', [PasswordResetController::class, 'sendLink'])
+    ->middleware('throttle:6,1')
+    ->name('password.email');
 
-    $request->validate([
-        'email' => 'required|email',
-    ]);
+Route::get('/reset-password/{token}', [PasswordResetController::class, 'showResetForm'])
+    ->middleware('throttle:10,1')
+    ->name('password.reset');
 
-    $status = Password::sendResetLink(
-        $request->only('email')
-    );
-
-    return $status === Password::RESET_LINK_SENT
-
-        ? back()->with(
-            'status',
-            __($status)
-        )
-
-        : back()->withErrors([
-            'email' => __($status),
-        ]);
-
-})->name('password.email');
+Route::post('/reset-password', [PasswordResetController::class, 'reset'])
+    ->middleware('throttle:6,1')
+    ->name('password.update');
 
 
 /*
@@ -165,7 +203,7 @@ Route::get('/dashboard', function () {
     );
 
 })
-    ->middleware('auth')
+    ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
 
@@ -181,7 +219,7 @@ Route::get('/order', function () {
         ->get();
 
     return view('order', compact('foods'));
-})->name('order');
+})->middleware(['auth', 'verified'])->name('order');
 
 
 /*
@@ -191,7 +229,7 @@ Route::get('/order', function () {
 */
 
 Route::post('/order', [OrderController::class, 'store'])
-    ->middleware('auth')
+    ->middleware(['auth', 'verified'])
     ->name('order.store');
 
 
@@ -201,12 +239,25 @@ Route::post('/order', [OrderController::class, 'store'])
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth', 'admin'])
+Route::middleware(['auth', 'verified', 'admin'])
     ->get(
         '/admin/dashboard',
         [AdminDashboardController::class, 'index']
     )
     ->name('admin.dashboard');
+
+Route::middleware(['auth', 'verified', 'admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
+        Route::get('/users/{userId}', [AdminUserController::class, 'show'])->whereNumber('userId')->name('users.show');
+        Route::get('/users/{userId}/edit', [AdminUserController::class, 'edit'])->whereNumber('userId')->name('users.edit');
+        Route::patch('/users/{userId}', [AdminUserController::class, 'update'])->whereNumber('userId')->name('users.update');
+        Route::post('/users/{userId}/password-reset', [AdminUserController::class, 'sendPasswordResetLink'])->whereNumber('userId')->middleware('throttle:6,1')->name('users.password-reset');
+        Route::delete('/users/{userId}', [AdminUserController::class, 'destroy'])->whereNumber('userId')->name('users.destroy');
+        Route::patch('/users/{userId}/restore', [AdminUserController::class, 'restore'])->whereNumber('userId')->name('users.restore');
+    });
 
 
 /*
@@ -215,7 +266,7 @@ Route::middleware(['auth', 'admin'])
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth', 'admin'])->group(function () {
+Route::middleware(['auth', 'verified', 'admin'])->group(function () {
 
     Route::resource(
         '/admin/foods',
@@ -230,7 +281,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth', 'admin'])
+Route::middleware(['auth', 'verified', 'admin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
@@ -259,7 +310,7 @@ Route::middleware(['auth', 'admin'])
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth', 'admin'])
+Route::middleware(['auth', 'verified', 'admin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {

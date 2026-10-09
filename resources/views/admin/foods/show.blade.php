@@ -124,7 +124,7 @@
 
         background: #dbeafe;
 
-        color: #2563eb;
+        color: var(--brand-accent);
 
         padding: 7px 13px;
 
@@ -220,7 +220,7 @@
     .edit-btn {
         background: #eff6ff;
 
-        color: #2563eb;
+        color: var(--brand-accent);
     }
 
     .edit-btn:hover {

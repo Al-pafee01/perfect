@@ -22,7 +22,7 @@
             </div>
 
             <div class="order-count">
-                <strong>{{ $orders->count() }}</strong>
+                <strong>{{ $orders->total() }}</strong>
                 <span>Total Orders</span>
             </div>
 
@@ -38,6 +38,19 @@
 
         @endif
 
+
+        <form class="order-filters" method="GET" action="{{ route('admin.orders.index') }}">
+            <input type="search" name="search" value="{{ request('search') }}" placeholder="Search customer, phone or order #" aria-label="Search orders">
+            <select name="status" aria-label="Filter by status">
+                <option value="">All statuses</option>
+                @foreach(['pending', 'preparing', 'ready', 'completed', 'cancelled'] as $status)
+                    <option value="{{ $status }}" @selected(request('status') === $status)>{{ ucfirst($status) }}</option>
+                @endforeach
+            </select>
+            <input type="date" name="date" value="{{ request('date') }}" aria-label="Filter by date">
+            <button type="submit">Apply filters</button>
+            <a href="{{ route('admin.orders.index') }}">Clear</a>
+        </form>
 
         <!-- ORDERS -->
         @if($orders->count())
@@ -55,6 +68,8 @@
                             <th>Customer</th>
 
                             <th>Items</th>
+
+                            <th>Type</th>
 
                             <th>Total</th>
 
@@ -81,7 +96,6 @@
                                     </strong>
                                 </td>
 
-
                                 <td>
 
                                     <div class="customer-cell">
@@ -106,6 +120,7 @@
 
                                 </td>
 
+                                <td>{{ ucfirst($order->fulfillment_type ?? 'delivery') }}</td>
 
                                 <td>
 
@@ -190,14 +205,26 @@
                     🛒
                 </div>
 
-                <h2>No Orders Yet</h2>
+                <h2>{{ request()->hasAny(['search', 'status', 'date']) ? 'No Matching Orders' : 'No Orders Yet' }}</h2>
 
                 <p>
-                    Customer orders will appear here when they place an order.
+                    {{ request()->hasAny(['search', 'status', 'date']) ? 'Try removing one or more filters.' : 'Customer orders will appear here when they place an order.' }}
                 </p>
 
             </div>
 
+        @endif
+
+        @if($orders->hasPages())
+            <nav class="orders-pagination" aria-label="Order pages">
+                <span>Page {{ $orders->currentPage() }} of {{ $orders->lastPage() }}</span>
+                @if($orders->previousPageUrl())
+                    <a href="{{ $orders->previousPageUrl() }}" rel="prev">Previous</a>
+                @endif
+                @if($orders->nextPageUrl())
+                    <a href="{{ $orders->nextPageUrl() }}" rel="next">Next</a>
+                @endif
+            </nav>
         @endif
 
     </div>
@@ -218,6 +245,56 @@
     margin: auto;
 }
 
+.order-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    margin: 0 0 22px;
+}
+
+.order-filters input,
+.order-filters select {
+    min-height: 44px;
+    padding: 9px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    background: white;
+}
+
+.order-filters button {
+    min-height: 44px;
+    padding: 9px 16px;
+    border: 0;
+    border-radius: 10px;
+    background: #1aaed0;
+    color: #102033;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.order-filters a {
+    color: var(--brand-accent-dark);
+    font-weight: 700;
+}
+
+.orders-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 24px;
+}
+
+.orders-pagination a {
+    padding: 8px 14px;
+    border-radius: 10px;
+    background: var(--brand-primary);
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+}
+
 
 /* HEADER */
 
@@ -230,7 +307,7 @@
 }
 
 .page-label {
-    color: #2563eb;
+    color: var(--brand-accent);
     font-size: 12px;
     font-weight: 800;
     letter-spacing: 2px;
@@ -262,7 +339,7 @@
 
 .order-count strong {
     display: block;
-    color: #2563eb;
+    color: var(--brand-accent);
     font-size: 28px;
 }
 
@@ -347,7 +424,7 @@
     border-radius: 50%;
 
     background: #eff6ff;
-    color: #2563eb;
+    color: var(--brand-accent);
 
     font-weight: 800;
 }
@@ -403,7 +480,7 @@
 
 .status-preparing {
     background: #dbeafe;
-    color: #1d4ed8;
+    color: var(--brand-accent-dark);
 }
 
 .status-ready {
@@ -448,7 +525,7 @@
 
     border-radius: 9px;
 
-    background: #2563eb;
+    background: var(--brand-accent);
     color: white;
 
     font-size: 13px;
@@ -460,7 +537,7 @@
 }
 
 .view-button:hover {
-    background: #1d4ed8;
+    background: var(--brand-accent-dark);
     transform: translateY(-1px);
 }
 
