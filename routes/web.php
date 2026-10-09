@@ -23,7 +23,35 @@ use App\Http\Controllers\AdminContactMessageController;
 */
 
 Route::get('/', function () {
-    return view('home');
+    $foods = \App\Models\Food::where('is_available', true)
+        ->withSum([
+            'orderItems as quantity_sold' => fn ($query) => $query->whereHas(
+                'order',
+                fn ($orders) => $orders->whereIn('status', ['pending', 'preparing', 'ready', 'completed'])
+            ),
+        ], 'quantity')
+        ->orderByDesc('quantity_sold')
+        ->latest()
+        ->take(3)
+        ->get();
+
+    $mealCount = \App\Models\Food::where('is_available', true)->count();
+    $categoryCount = \App\Models\Food::where('is_available', true)
+        ->distinct()
+        ->count('category');
+    $completedOrderCount = \App\Models\Order::where('status', 'completed')->count();
+    $customerCount = \App\Models\Order::where('status', 'completed')
+        ->whereNotNull('user_id')
+        ->distinct()
+        ->count('user_id');
+
+    return view('home', compact(
+        'foods',
+        'mealCount',
+        'categoryCount',
+        'completedOrderCount',
+        'customerCount'
+    ));
 });
 
 
