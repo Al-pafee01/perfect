@@ -406,7 +406,7 @@
             display: grid;
             place-items: center;
             transform: translateY(0);
-            transition: transform .7s cubic-bezier(.76, 0, .24, 1);
+            transition: transform .18s cubic-bezier(.76, 0, .24, 1);
         }
 
 
@@ -425,7 +425,7 @@
             letter-spacing: .5px;
             opacity: 1;
             transform: translateY(0);
-            transition: opacity .25s ease, transform .45s ease;
+            transition: opacity .15s ease, transform .18s ease;
         }
 
 
@@ -476,7 +476,7 @@
 
         body.page-ready #main-content,
         body.page-ready .food-footer {
-            animation: pageEnter .6s cubic-bezier(.22, 1, .36, 1) both;
+            animation: pageEnter .25s cubic-bezier(.22, 1, .36, 1) both;
         }
 
 
@@ -734,7 +734,7 @@
 
             window.setTimeout(function () {
                 window.location.href = link.href;
-            }, 300);
+            }, 80);
 
         });
 

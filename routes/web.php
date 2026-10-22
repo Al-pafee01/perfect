@@ -105,9 +105,8 @@ Route::post('/contact/message', [ContactMessageController::class, 'store'])
 |--------------------------------------------------------------------------
 */
 
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
+Route::get('/login', [LoginController::class, 'show'])
+    ->name('login');
 
 Route::post('/login', [LoginController::class, 'login'])
     ->name('login.store');

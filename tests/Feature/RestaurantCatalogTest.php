@@ -121,6 +121,15 @@ class RestaurantCatalogTest extends TestCase
             ->assertHeader('Pragma', 'no-cache');
     }
 
+    public function test_login_page_is_not_cached_with_an_old_csrf_token(): void
+    {
+        $this->get(route('login'))
+            ->assertOk()
+            ->assertHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+            ->assertHeader('Pragma', 'no-cache')
+            ->assertHeader('Expires', 'Sat, 01 Jan 2000 00:00:00 GMT');
+    }
+
     public function test_registration_sends_verification_email_and_blocks_unverified_account_access(): void
     {
         Notification::fake();
@@ -266,6 +275,28 @@ class RestaurantCatalogTest extends TestCase
         $this->post(route('logout'))->assertRedirect('/login');
 
         $this->assertNotNull($activity->fresh()->logged_out_at);
+    }
+
+    public function test_login_activity_updates_last_seen_at_at_most_once_per_minute(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->get(route('dashboard'))
+            ->assertOk();
+
+        $activity = $user->loginActivities()->firstOrFail();
+        $firstLastSeenAt = $activity->last_seen_at;
+
+        $this->travel(30)->seconds();
+        $this->get(route('dashboard'))->assertOk();
+
+        $this->assertTrue($activity->fresh()->last_seen_at->equalTo($firstLastSeenAt));
+
+        $this->travel(31)->seconds();
+        $this->get(route('dashboard'))->assertOk();
+
+        $this->assertTrue($activity->fresh()->last_seen_at->greaterThan($firstLastSeenAt));
     }
 
     public function test_only_admins_can_open_customer_management_and_customer_accounts_are_manageable(): void

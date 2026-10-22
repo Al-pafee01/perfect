@@ -21,6 +21,21 @@ class TrackUserActivity
 
         $now = now();
         $trackingKey = $request->session()->get('_user_activity_tracking_key');
+        $lastRecordedAt = $request->session()->get('_user_activity_last_recorded_at');
+        $lastRecordedKey = $request->session()->get('_user_activity_last_recorded_key');
+        $lastRecordedUserId = $request->session()->get('_user_activity_last_recorded_user_id');
+
+        if (
+            is_string($trackingKey)
+            && $trackingKey !== ''
+            && $lastRecordedKey === $trackingKey
+            && (int) $lastRecordedUserId === (int) $user->id
+            && is_numeric($lastRecordedAt)
+            && (int) $lastRecordedAt > $now->copy()->subMinute()->timestamp
+        ) {
+            return $response;
+        }
+
         $activity = is_string($trackingKey)
             ? UserLoginActivity::where('session_hash', hash('sha256', $trackingKey))->first()
             : null;
@@ -48,6 +63,11 @@ class TrackUserActivity
 
         $activity->last_seen_at = $now;
         $activity->save();
+        $request->session()->put([
+            '_user_activity_last_recorded_at' => $now->timestamp,
+            '_user_activity_last_recorded_key' => $trackingKey,
+            '_user_activity_last_recorded_user_id' => $user->id,
+        ]);
 
         return $response;
     }
